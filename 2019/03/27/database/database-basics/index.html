@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>数据库基础 | xujiangjun&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一个database可以有很多schema。此外一般线上会对应两个数据库，主库（master，主要进行写操作），从库（slave，主要进行读操作）。 数据库基础数据类型数字（整数|小数） 整数通常只使用tinyint和int，其后面括号带的数字无任何意义，不影响所占用的字节数和存储范围。 枚举字段：使用tinyint，且可加上unsigned。 decimal(n,m)简单介绍就是n&amp;gt;=m，">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库基础">
+<meta property="og:url" content="https://xujiangjun.github.io/2019/03/27/database/database-basics/index.html">
+<meta property="og:site_name" content="xujiangjun&#39;s Blog">
+<meta property="og:description" content="一个database可以有很多schema。此外一般线上会对应两个数据库，主库（master，主要进行写操作），从库（slave，主要进行读操作）。 数据库基础数据类型数字（整数|小数） 整数通常只使用tinyint和int，其后面括号带的数字无任何意义，不影响所占用的字节数和存储范围。 枚举字段：使用tinyint，且可加上unsigned。 decimal(n,m)简单介绍就是n&amp;gt;=m，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xujiangjun.github.io/images/mysql_integer.png">
+<meta property="og:updated_time" content="2019-03-27T13:56:11.340Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库基础">
+<meta name="twitter:description" content="一个database可以有很多schema。此外一般线上会对应两个数据库，主库（master，主要进行写操作），从库（slave，主要进行读操作）。 数据库基础数据类型数字（整数|小数） 整数通常只使用tinyint和int，其后面括号带的数字无任何意义，不影响所占用的字节数和存储范围。 枚举字段：使用tinyint，且可加上unsigned。 decimal(n,m)简单介绍就是n&amp;gt;=m，">
+<meta name="twitter:image" content="https://xujiangjun.github.io/images/mysql_integer.png">
+  
+    <link rel="alternate" href="/atom.xml" title="xujiangjun&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">xujiangjun&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://xujiangjun.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-database/database-basics" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/27/database/database-basics/" class="article-date">
+  <time datetime="2019-03-26T16:00:00.000Z" itemprop="datePublished">2019-03-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据库基础
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一个database可以有很多schema。此外一般线上会对应两个数据库，主库（master，主要进行写操作），从库（slave，主要进行读操作）。</p>
+<h2 id="数据库基础数据类型"><a href="#数据库基础数据类型" class="headerlink" title="数据库基础数据类型"></a>数据库基础数据类型</h2><h4 id="数字（整数-小数）"><a href="#数字（整数-小数）" class="headerlink" title="数字（整数|小数）"></a>数字（整数|小数）</h4><ol>
+<li>整数通常只使用tinyint和int，其后面括号带的数字无任何意义，不影响所占用的字节数和存储范围。</li>
+<li>枚举字段：使用tinyint，且可加上unsigned。</li>
+<li>decimal(n,m)简单介绍就是n&gt;=m，n表示总位数（包含m，不包括小数点），m表示小数点后的位数（即精度）。n取值范围是（1~65）、m取值范围是（0~30），金额字段通常使用decimal(10,2)，根据需求定义n和m的值。</li>
+</ol>
+<p><img src="/images/mysql_integer.png" alt="整数"></p>
+<h4 id="字符（定长-变长）"><a href="#字符（定长-变长）" class="headerlink" title="字符（定长|变长）"></a>字符（定长|变长）</h4><ol>
+<li>定长字符char(n)：n取值范围是（0~255），n的单位为char，当n为0时，只能存放null和空字符串（但是没意义）。</li>
+<li>变长字符varchar(n)：最大存储空间为65535byte（64k），n的单位为char，故n的取值范围为（0~65535/m），m的取值与对应的字符集有关，不过n不要轻易超过255。</li>
+<li>长度单位是char，存储单位是byte。</li>
+<li>同等长度的字符长度，varchar会额外多占用一个字节。如：”ab”字符串varchar存储的话需要占用3bytes。</li>
+</ol>
+<h4 id="日期时间（日期-日期-时间）"><a href="#日期时间（日期-日期-时间）" class="headerlink" title="日期时间（日期|日期+时间）"></a>日期时间（日期|日期+时间）</h4><ol>
+<li>日期时间推进使用datetime，不推荐使用date，在淘汽内部使用的数据表迁移工具对date支持不好。</li>
+<li>如果日期时间只关心到月份，则推荐使用字符进行存储，如：char(6)存储201701。</li>
+<li>记录修改时间什么时候赋值好？插入时即可进行赋值，以免为空。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xujiangjun.github.io/2019/03/27/database/database-basics/" data-id="cjtra0o5q0002l39s6ubiqduj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/27/java/interviews/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java面试题集
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/27/spring/Spring简介/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Spring简介</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/27/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/27/java/interviews/">Java面试题集</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/27/database/database-basics/">数据库基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/27/spring/Spring简介/">Spring简介</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 xujiangjun<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
