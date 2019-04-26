@@ -5,20 +5,20 @@
   
 
   
-  <title>Spring简介 | xujiangjun&#39;s Blog</title>
+  <title>研发规范 | xujiangjun&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Spring 对 Java 版本的要求Spring 4.0 基于 Java 6.0，全面支持 Java 8.0。运行 Spring 4.0 必须使用 Java 6.0 以上版本。 Spring 4.0 新特性 DateTimeFormat注解可以通过配置格式化”yyyy-MM-dd”格式的日期字符串。 空指针终结者Optional&amp;lt;&amp;gt;、依赖注入和SpringMVC参数接收可选化。 核心">
-<meta name="keywords" content="Spring">
+  <meta name="description" content="提供的dubbo服务应尽量保证接口的幂等性（主要是新增和修改接口），因为dubbo调用存在重试机制。  MQ消费者接收消息处理也需要保证幂等性，避免重复消费引起异常。  创建表默认需要包含id、gmt_create和gmt_modified三个字段，修改时间默认设置为创建时间。 123456789101112drop table if exists `tbl`;create table `tbl">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring简介">
-<meta property="og:url" content="https://xujiangjun.github.io/2019/03/27/spring/Spring简介/index.html">
+<meta property="og:title" content="研发规范">
+<meta property="og:url" content="https://xujiangjun.github.io/2019/04/26/java/研发规范/index.html">
 <meta property="og:site_name" content="xujiangjun&#39;s Blog">
-<meta property="og:description" content="Spring 对 Java 版本的要求Spring 4.0 基于 Java 6.0，全面支持 Java 8.0。运行 Spring 4.0 必须使用 Java 6.0 以上版本。 Spring 4.0 新特性 DateTimeFormat注解可以通过配置格式化”yyyy-MM-dd”格式的日期字符串。 空指针终结者Optional&amp;lt;&amp;gt;、依赖注入和SpringMVC参数接收可选化。 核心">
+<meta property="og:description" content="提供的dubbo服务应尽量保证接口的幂等性（主要是新增和修改接口），因为dubbo调用存在重试机制。  MQ消费者接收消息处理也需要保证幂等性，避免重复消费引起异常。  创建表默认需要包含id、gmt_create和gmt_modified三个字段，修改时间默认设置为创建时间。 123456789101112drop table if exists `tbl`;create table `tbl">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-28T07:57:18.397Z">
+<meta property="og:updated_time" content="2019-04-26T07:20:59.118Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring简介">
-<meta name="twitter:description" content="Spring 对 Java 版本的要求Spring 4.0 基于 Java 6.0，全面支持 Java 8.0。运行 Spring 4.0 必须使用 Java 6.0 以上版本。 Spring 4.0 新特性 DateTimeFormat注解可以通过配置格式化”yyyy-MM-dd”格式的日期字符串。 空指针终结者Optional&amp;lt;&amp;gt;、依赖注入和SpringMVC参数接收可选化。 核心">
+<meta name="twitter:title" content="研发规范">
+<meta name="twitter:description" content="提供的dubbo服务应尽量保证接口的幂等性（主要是新增和修改接口），因为dubbo调用存在重试机制。  MQ消费者接收消息处理也需要保证幂等性，避免重复消费引起异常。  创建表默认需要包含id、gmt_create和gmt_modified三个字段，修改时间默认设置为创建时间。 123456789101112drop table if exists `tbl`;create table `tbl">
   
     <link rel="alternate" href="/atom.xml" title="xujiangjun&#39;s Blog" type="application/atom+xml">
   
@@ -65,10 +65,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-spring/Spring简介" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-java/研发规范" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/03/27/spring/Spring简介/" class="article-date">
-  <time datetime="2019-03-26T16:00:00.000Z" itemprop="datePublished">2019-03-27</time>
+    <a href="/2019/04/26/java/研发规范/" class="article-date">
+  <time datetime="2019-04-25T16:00:00.000Z" itemprop="datePublished">2019-04-26</time>
 </a>
     
   </div>
@@ -79,7 +79,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Spring简介
+      研发规范
     </h1>
   
 
@@ -87,24 +87,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="Spring-对-Java-版本的要求"><a href="#Spring-对-Java-版本的要求" class="headerlink" title="Spring 对 Java 版本的要求"></a>Spring 对 Java 版本的要求</h4><p>Spring 4.0 基于 Java 6.0，全面支持 Java 8.0。运行 Spring 4.0 必须使用 Java 6.0 以上版本。</p>
-<h4 id="Spring-4-0-新特性"><a href="#Spring-4-0-新特性" class="headerlink" title="Spring 4.0 新特性"></a>Spring 4.0 新特性</h4><ol>
-<li>DateTimeFormat注解可以通过配置格式化”yyyy-MM-dd”格式的日期字符串。</li>
-<li>空指针终结者Optional&lt;&gt;、依赖注入和SpringMVC参数接收可选化。</li>
-<li>核心容器增强：支持泛型依赖注入、对Cglib类代理不再要求必须有空参构造器。</li>
-<li>从 Spring 4.0 开始，SpringMVC 基于 Servlet 3.0 开发。</li>
-<li>使用 WebSocket 需要考虑浏览器版本（IE&lt;10 不支持），目前主流的浏览器都能很好地支持WebSocket。</li>
+        <ol>
+<li><p>提供的dubbo服务应尽量保证接口的幂等性（主要是新增和修改接口），因为dubbo调用存在重试机制。</p>
+</li>
+<li><p>MQ消费者接收消息处理也需要保证幂等性，避免重复消费引起异常。</p>
+</li>
+<li><p>创建表默认需要包含id、gmt_create和gmt_modified三个字段，修改时间默认设置为创建时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">drop table if exists `tbl`;</span><br><span class="line">create table `tbl`(</span><br><span class="line">	`id` bigint unsigned not null auto_increment comment &apos;主键&apos;,</span><br><span class="line"> 	`is_deleted` tinyint unsigned default 0 comment &apos;是否删除：0-未删除; 1-已删除&apos;,</span><br><span class="line"> 	`creator` varchar(16) default &apos;&apos; comment &apos;创建人&apos;,</span><br><span class="line"> 	`gmt_create` datetime not null comment &apos;创建时间&apos;,</span><br><span class="line"> 	`modifier` varchar(16) default &apos;&apos; comment &apos;修改人&apos;,</span><br><span class="line"> 	`gmt_modified` datetime not null comment &apos;修改时间&apos;,</span><br><span class="line"> 	primary key (`id`),</span><br><span class="line"> 	key `idx_gmt_create` (`gmt_create`),</span><br><span class="line"> 	key `idx_gmt_modified` (`gmt_modified`)</span><br><span class="line"> ) engine = innodb default charset = utf8mb4 comment = &apos;table name&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+<li></li>
 </ol>
-<h4 id="Spring-子项目"><a href="#Spring-子项目" class="headerlink" title="Spring 子项目"></a>Spring 子项目</h4><p>Spring Boot、Spring Cloud、Spring Data、Spring Security、Spring Session</p>
-<h4 id="如何获取-Spring"><a href="#如何获取-Spring" class="headerlink" title="如何获取 Spring"></a>如何获取 Spring</h4><p>目前，Spring 不再提供直接下载方式，只能使用Maven或Gradle构建来下载Spring的构建包。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xujiangjun.github.io/2019/03/27/spring/Spring简介/" data-id="cjuxr16fe000fyj9sygf0ie6t" class="article-share-link">Share</a>
+      <a data-url="https://xujiangjun.github.io/2019/04/26/java/研发规范/" data-id="cjuxr16fc000ayj9s1q3h2e41" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
     </footer>
   </div>
@@ -112,19 +112,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/03/27/java/interviews/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Java面试题集
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/03/26/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/04/25/问题集/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">遇到的坑</div>
     </a>
   
 </nav>

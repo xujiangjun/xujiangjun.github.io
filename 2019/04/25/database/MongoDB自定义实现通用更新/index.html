@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>MongoDB自定义实现通用更新 | xujiangjun&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="通用转换工具类 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051/** * 将一个对象转换为Update * * @param obj 需要转换的POJO对象 * @param ignoreProps 不需要转换的属性 * @return 转换完的Update">
+<meta name="keywords" content="MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB自定义实现通用更新">
+<meta property="og:url" content="https://xujiangjun.github.io/2019/04/25/database/MongoDB自定义实现通用更新/index.html">
+<meta property="og:site_name" content="xujiangjun&#39;s Blog">
+<meta property="og:description" content="通用转换工具类 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051/** * 将一个对象转换为Update * * @param obj 需要转换的POJO对象 * @param ignoreProps 不需要转换的属性 * @return 转换完的Update">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-25T09:54:18.432Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MongoDB自定义实现通用更新">
+<meta name="twitter:description" content="通用转换工具类 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051/** * 将一个对象转换为Update * * @param obj 需要转换的POJO对象 * @param ignoreProps 不需要转换的属性 * @return 转换完的Update">
+  
+    <link rel="alternate" href="/atom.xml" title="xujiangjun&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">xujiangjun&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://xujiangjun.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-database/MongoDB自定义实现通用更新" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/25/database/MongoDB自定义实现通用更新/" class="article-date">
+  <time datetime="2019-04-24T16:00:00.000Z" itemprop="datePublished">2019-04-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MongoDB自定义实现通用更新
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>通用转换工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将一个对象转换为Update</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> obj 需要转换的POJO对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> ignoreProps 不需要转换的属性</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 转换完的Update</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Update <span class="title">fittingUpdate</span><span class="params">(Object obj, List&lt;String&gt; ignoreProps)</span> </span>&#123;</span><br><span class="line">    Update update = <span class="keyword">new</span> Update();</span><br><span class="line">    Class&lt;?&gt; clazz = obj.getClass();</span><br><span class="line">    <span class="keyword">for</span> (; clazz != <span class="keyword">null</span>; clazz = clazz.getSuperclass())&#123;</span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            String fieldName = field.getName();</span><br><span class="line">            <span class="keyword">if</span>(CollectionUtils.isEmpty(ignoreProps) || !ignoreProps.contains(fieldName))&#123;</span><br><span class="line">                Object value = getValue(obj, field);</span><br><span class="line">                <span class="keyword">if</span>(value != <span class="keyword">null</span>)&#123;</span><br><span class="line">                    Transform transform = field.getAnnotation(Transform.class);</span><br><span class="line">                    <span class="keyword">if</span>(transform != <span class="keyword">null</span>)&#123;</span><br><span class="line">                        <span class="keyword">boolean</span> complex = transform.complex();</span><br><span class="line">                        <span class="keyword">if</span>(complex)&#123;</span><br><span class="line">                            List&lt;BasicDBObject&gt; basicDBObjectList = JSONArray.parseArray(JSON.toJSONString(value), BasicDBObject.class);</span><br><span class="line">                            update.set(fieldName, basicDBObjectList);</span><br><span class="line">                        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                            BasicDBObject basicDBObject = JSON.parseObject(JSON.toJSONString(value), BasicDBObject.class);</span><br><span class="line">                            update.set(fieldName, basicDBObject);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                        update.set(fieldName, value);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> update;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getValue</span><span class="params">(Object obj, Field field)</span></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        Object value = field.get(obj);</span><br><span class="line">        <span class="keyword">boolean</span> isBlank = value <span class="keyword">instanceof</span> String &amp;&amp; StringUtils.isBlank((String) value);</span><br><span class="line">        <span class="keyword">if</span>(value == <span class="keyword">null</span> || isBlank)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">        log.error(<span class="string">"fittingUpdate() happens illegalAccessException"</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Happens illegalAccessException"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自定义一个注解，用于处理对象中属性是对象或者是对象列表的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 用于标注属性是POJO或者是POJO列表的</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xujiangjun</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2019.03.28</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="meta">@Target</span>(&#123;ElementType.PARAMETER, ElementType.FIELD&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Transform &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 属性是否是一个POJO数据类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">simple</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">true</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * list的属性是否是一个POJO数据类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">complex</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>MongoDB聚合函数使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TypedAggregation&lt;DubboConfig&gt; aggregation = Aggregation.newAggregation(DubboConfig.class,</span><br><span class="line">                Aggregation.group(<span class="string">"interfaceName"</span>), Aggregation.project().and(<span class="string">"interfaceName"</span>).previousOperation());</span><br><span class="line">        AggregationResults&lt;DubboConfig&gt; aggregationResults = mongoOperations.aggregate(aggregation, DubboConfig.class);</span><br><span class="line">        <span class="keyword">return</span> aggregationResults.getMappedResults();</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xujiangjun.github.io/2019/04/25/database/MongoDB自定义实现通用更新/" data-id="cjuxr16f80005yj9shsgq48it" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/">MongoDB</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/25/问题集/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          遇到的坑
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/25/java/异常堆栈信息打印/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">异常堆栈信息打印</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/26/java/研发规范/">研发规范</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/25/问题集/">遇到的坑</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/25/database/MongoDB自定义实现通用更新/">MongoDB自定义实现通用更新</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/25/java/异常堆栈信息打印/">异常堆栈信息打印</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/25/jvm/JVM排查工具/">JVM排查工具</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 xujiangjun<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

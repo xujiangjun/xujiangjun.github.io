@@ -65,10 +65,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-java/研发规范" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/03/27/hello-world/" class="article-date">
-  <time datetime="2019-03-26T16:00:00.000Z" itemprop="datePublished">2019-03-27</time>
+    <a href="/2019/04/26/java/研发规范/" class="article-date">
+  <time datetime="2019-04-25T16:00:00.000Z" itemprop="datePublished">2019-04-26</time>
 </a>
     
   </div>
@@ -79,7 +79,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/27/hello-world/">Hello World</a>
+      <a class="article-title" href="/2019/04/26/java/研发规范/">研发规范</a>
     </h1>
   
 
@@ -87,22 +87,243 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <ol>
+<li><p>提供的dubbo服务应尽量保证接口的幂等性（主要是新增和修改接口），因为dubbo调用存在重试机制。</p>
+</li>
+<li><p>MQ消费者接收消息处理也需要保证幂等性，避免重复消费引起异常。</p>
+</li>
+<li><p>创建表默认需要包含id、gmt_create和gmt_modified三个字段，修改时间默认设置为创建时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">drop table if exists `tbl`;</span><br><span class="line">create table `tbl`(</span><br><span class="line">	`id` bigint unsigned not null auto_increment comment &apos;主键&apos;,</span><br><span class="line"> 	`is_deleted` tinyint unsigned default 0 comment &apos;是否删除：0-未删除; 1-已删除&apos;,</span><br><span class="line"> 	`creator` varchar(16) default &apos;&apos; comment &apos;创建人&apos;,</span><br><span class="line"> 	`gmt_create` datetime not null comment &apos;创建时间&apos;,</span><br><span class="line"> 	`modifier` varchar(16) default &apos;&apos; comment &apos;修改人&apos;,</span><br><span class="line"> 	`gmt_modified` datetime not null comment &apos;修改时间&apos;,</span><br><span class="line"> 	primary key (`id`),</span><br><span class="line"> 	key `idx_gmt_create` (`gmt_create`),</span><br><span class="line"> 	key `idx_gmt_modified` (`gmt_modified`)</span><br><span class="line"> ) engine = innodb default charset = utf8mb4 comment = &apos;table name&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+<li></li>
+</ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xujiangjun.github.io/2019/03/27/hello-world/" data-id="cjtra26aq0000ta9s5yqqufmd" class="article-share-link">Share</a>
+      <a data-url="https://xujiangjun.github.io/2019/04/26/java/研发规范/" data-id="cjuxr16fc000ayj9s1q3h2e41" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-问题集" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/25/问题集/" class="article-date">
+  <time datetime="2019-04-24T16:00:00.000Z" itemprop="datePublished">2019-04-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/25/问题集/">遇到的坑</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>如何实现热部署（需要重新创建一个类加载器，然后加载这个类。如果使用已存在的类加载器，则加载的还是原来已缓存的class）</p>
+</li>
+<li><p>动态编译后热部署时而不生效（因前端请求只到一台服务器，故只有一台服务器重新编译了并加载了，另一台服务器无感知）</p>
+<p>解决方案：如果已经编译过了，则将服务器ip维护起来。若有修改代码，则服务器ip清空。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xujiangjun.github.io/2019/04/25/问题集/" data-id="cjuxr16ed0001yj9siv9h5zfh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-database/MongoDB自定义实现通用更新" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/25/database/MongoDB自定义实现通用更新/" class="article-date">
+  <time datetime="2019-04-24T16:00:00.000Z" itemprop="datePublished">2019-04-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/25/database/MongoDB自定义实现通用更新/">MongoDB自定义实现通用更新</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>通用转换工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将一个对象转换为Update</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> obj 需要转换的POJO对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> ignoreProps 不需要转换的属性</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 转换完的Update</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Update <span class="title">fittingUpdate</span><span class="params">(Object obj, List&lt;String&gt; ignoreProps)</span> </span>&#123;</span><br><span class="line">    Update update = <span class="keyword">new</span> Update();</span><br><span class="line">    Class&lt;?&gt; clazz = obj.getClass();</span><br><span class="line">    <span class="keyword">for</span> (; clazz != <span class="keyword">null</span>; clazz = clazz.getSuperclass())&#123;</span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            String fieldName = field.getName();</span><br><span class="line">            <span class="keyword">if</span>(CollectionUtils.isEmpty(ignoreProps) || !ignoreProps.contains(fieldName))&#123;</span><br><span class="line">                Object value = getValue(obj, field);</span><br><span class="line">                <span class="keyword">if</span>(value != <span class="keyword">null</span>)&#123;</span><br><span class="line">                    Transform transform = field.getAnnotation(Transform.class);</span><br><span class="line">                    <span class="keyword">if</span>(transform != <span class="keyword">null</span>)&#123;</span><br><span class="line">                        <span class="keyword">boolean</span> complex = transform.complex();</span><br><span class="line">                        <span class="keyword">if</span>(complex)&#123;</span><br><span class="line">                            List&lt;BasicDBObject&gt; basicDBObjectList = JSONArray.parseArray(JSON.toJSONString(value), BasicDBObject.class);</span><br><span class="line">                            update.set(fieldName, basicDBObjectList);</span><br><span class="line">                        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                            BasicDBObject basicDBObject = JSON.parseObject(JSON.toJSONString(value), BasicDBObject.class);</span><br><span class="line">                            update.set(fieldName, basicDBObject);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                        update.set(fieldName, value);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> update;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getValue</span><span class="params">(Object obj, Field field)</span></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        Object value = field.get(obj);</span><br><span class="line">        <span class="keyword">boolean</span> isBlank = value <span class="keyword">instanceof</span> String &amp;&amp; StringUtils.isBlank((String) value);</span><br><span class="line">        <span class="keyword">if</span>(value == <span class="keyword">null</span> || isBlank)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">        log.error(<span class="string">"fittingUpdate() happens illegalAccessException"</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Happens illegalAccessException"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自定义一个注解，用于处理对象中属性是对象或者是对象列表的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 用于标注属性是POJO或者是POJO列表的</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xujiangjun</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2019.03.28</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="meta">@Target</span>(&#123;ElementType.PARAMETER, ElementType.FIELD&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Transform &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 属性是否是一个POJO数据类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">simple</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">true</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * list的属性是否是一个POJO数据类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">complex</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>MongoDB聚合函数使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TypedAggregation&lt;DubboConfig&gt; aggregation = Aggregation.newAggregation(DubboConfig.class,</span><br><span class="line">                Aggregation.group(<span class="string">"interfaceName"</span>), Aggregation.project().and(<span class="string">"interfaceName"</span>).previousOperation());</span><br><span class="line">        AggregationResults&lt;DubboConfig&gt; aggregationResults = mongoOperations.aggregate(aggregation, DubboConfig.class);</span><br><span class="line">        <span class="keyword">return</span> aggregationResults.getMappedResults();</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xujiangjun.github.io/2019/04/25/database/MongoDB自定义实现通用更新/" data-id="cjuxr16f80005yj9shsgq48it" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/">MongoDB</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-java/异常堆栈信息打印" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/25/java/异常堆栈信息打印/" class="article-date">
+  <time datetime="2019-04-24T16:00:00.000Z" itemprop="datePublished">2019-04-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/25/java/异常堆栈信息打印/">异常堆栈信息打印</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如何进行异常堆栈信息打印呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 打印具体的异常堆栈信息</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e 抛出的异常</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 堆栈信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">getStackTrace</span><span class="params">(Throwable e)</span></span>&#123;</span><br><span class="line">	StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">	StackTraceElement[] stackTraceElements = e.getStackTrace();</span><br><span class="line">	sb.append(e.toString() + <span class="string">"\n"</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; stackTraceElements.length; i++) &#123;</span><br><span class="line">		sb.append(stackTraceElements[i] + <span class="string">"\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果是通过反射进行调用的话，需要进一步获取异常信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(e <span class="keyword">instanceof</span> InvocationTargetException)&#123;</span><br><span class="line">    InvocationTargetException targetException = (InvocationTargetException) e;</span><br><span class="line">    Throwable ex = targetException.getTargetException();</span><br><span class="line">    String exceptionMessage = getStackTrace(ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xujiangjun.github.io/2019/04/25/java/异常堆栈信息打印/" data-id="cjuxr16fb0008yj9sv1ok7djg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jvm/JVM排查工具" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/25/jvm/JVM排查工具/" class="article-date">
+  <time datetime="2019-04-24T16:00:00.000Z" itemprop="datePublished">2019-04-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/25/jvm/JVM排查工具/">JVM排查工具</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://gceasy.io/" target="_blank" rel="noopener">GC Log Analyzer</a></p>
+<p><a href="https://www.fastthread.io/" target="_blank" rel="noopener">Thread Dump Analyzer</a></p>
+<p><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=2245aa39-fa5c-4475-b891-14c205f7333c" target="_blank" rel="noopener">IBM Thread and Monitor Dump Analyzer for Java</a></p>
+<p><a href="https://www.eclipse.org/mat/downloads.php" target="_blank" rel="noopener">MAT</a></p>
+<p><a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-ecl-ma/index.html" target="_blank" rel="noopener">MAT使用教程</a></p>
+<p><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=4544bafe-c7a2-455f-9d43-eb866ea60091" target="_blank" rel="noopener">IBM HeapAnalyzer</a>（推荐）</p>
+<p><a href="http://www-01.ibm.com/support/docview.wss?uid=swg27006624&amp;aid=1" target="_blank" rel="noopener">How to use IBM HeapAnalyzer</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动IBM HeapAnalyzer</span></span><br><span class="line">java -Xmx4096m -jar ha456.jar</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xujiangjun.github.io/2019/04/25/jvm/JVM排查工具/" data-id="cjuxr16fd000dyj9s7ywpmcdt" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jvm/JVM排查实战" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/25/jvm/JVM排查实战/" class="article-date">
+  <time datetime="2019-04-24T16:00:00.000Z" itemprop="datePublished">2019-04-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/25/jvm/JVM排查实战/">JVM排查实战</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java内存泄露排查主要使用Analysis View，具体排查过程可查看下图：</p>
+<p><img src="/images/jvm_heapdump_01.jpg" alt="内存泄露分析_01"></p>
+<p><img src="/images/jvm_heapdump_02.jpg" alt="内存泄露分析_02"></p>
+<p><img src="/images/jvm_heapdump_03.jpg" alt="内存泄露分析_03"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xujiangjun.github.io/2019/04/25/jvm/JVM排查实战/" data-id="cjuxr16fg000iyj9scjpt7qok" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
+
     </footer>
   </div>
   
@@ -154,7 +375,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xujiangjun.github.io/2019/03/27/database/database-basics/" data-id="cjtra26bg0001ta9swhn9rm0v" class="article-share-link">Share</a>
+      <a data-url="https://xujiangjun.github.io/2019/03/27/database/database-basics/" data-id="cjuxr16f70004yj9sxeou4do2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
@@ -223,7 +444,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xujiangjun.github.io/2019/03/27/java/interviews/" data-id="cjtra26bi0002ta9s3jd7rleo" class="article-share-link">Share</a>
+      <a data-url="https://xujiangjun.github.io/2019/03/27/java/interviews/" data-id="cjuxr16fa0007yj9s7gfvlvvk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -271,11 +492,56 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xujiangjun.github.io/2019/03/27/spring/Spring简介/" data-id="cjtra26bl0004ta9sfx0sg7rc" class="article-share-link">Share</a>
+      <a data-url="https://xujiangjun.github.io/2019/03/27/spring/Spring简介/" data-id="cjuxr16fe000fyj9sygf0ie6t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
 
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/26/hello-world/" class="article-date">
+  <time datetime="2019-03-25T16:00:00.000Z" itemprop="datePublished">2019-03-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/26/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://xujiangjun.github.io/2019/03/26/hello-world/" data-id="cjuxr16e80000yj9sdj8e5f9u" class="article-share-link">Share</a>
+      
+      
     </footer>
   </div>
   
@@ -296,7 +562,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
     </div>
   </div>
 
@@ -306,7 +572,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a>
+      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a>
     </div>
   </div>
 
@@ -315,7 +581,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
     </div>
   </div>
 
@@ -328,19 +594,23 @@
       <ul>
         
           <li>
-            <a href="/2019/03/27/hello-world/">Hello World</a>
+            <a href="/2019/04/26/java/研发规范/">研发规范</a>
           </li>
         
           <li>
-            <a href="/2019/03/27/database/database-basics/">数据库基础</a>
+            <a href="/2019/04/25/问题集/">遇到的坑</a>
           </li>
         
           <li>
-            <a href="/2019/03/27/java/interviews/">Java面试题集</a>
+            <a href="/2019/04/25/database/MongoDB自定义实现通用更新/">MongoDB自定义实现通用更新</a>
           </li>
         
           <li>
-            <a href="/2019/03/27/spring/Spring简介/">Spring简介</a>
+            <a href="/2019/04/25/java/异常堆栈信息打印/">异常堆栈信息打印</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/25/jvm/JVM排查工具/">JVM排查工具</a>
           </li>
         
       </ul>

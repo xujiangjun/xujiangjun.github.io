@@ -5,22 +5,20 @@
   
 
   
-  <title>数据库基础 | xujiangjun&#39;s Blog</title>
+  <title>异常堆栈信息打印 | xujiangjun&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一个database可以有很多schema。此外一般线上会对应两个数据库，主库（master，主要进行写操作），从库（slave，主要进行读操作）。 数据库基础数据类型数字（整数|小数） 整数通常只使用tinyint和int，其后面括号带的数字无任何意义，不影响所占用的字节数和存储范围。 枚举字段：使用tinyint，且可加上unsigned。 decimal(n,m)简单介绍就是n&amp;gt;=m，">
-<meta name="keywords" content="MySQL">
+  <meta name="description" content="如何进行异常堆栈信息打印呢？ 123456789101112131415/** * 打印具体的异常堆栈信息 * * @param e 抛出的异常 * @return 堆栈信息 */private String getStackTrace(Throwable e)&amp;#123;	StringBuilder sb = new StringBuilder();	StackTraceElement[] st">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库基础">
-<meta property="og:url" content="https://xujiangjun.github.io/2019/03/27/database/database-basics/index.html">
+<meta property="og:title" content="异常堆栈信息打印">
+<meta property="og:url" content="https://xujiangjun.github.io/2019/04/25/java/异常堆栈信息打印/index.html">
 <meta property="og:site_name" content="xujiangjun&#39;s Blog">
-<meta property="og:description" content="一个database可以有很多schema。此外一般线上会对应两个数据库，主库（master，主要进行写操作），从库（slave，主要进行读操作）。 数据库基础数据类型数字（整数|小数） 整数通常只使用tinyint和int，其后面括号带的数字无任何意义，不影响所占用的字节数和存储范围。 枚举字段：使用tinyint，且可加上unsigned。 decimal(n,m)简单介绍就是n&amp;gt;=m，">
+<meta property="og:description" content="如何进行异常堆栈信息打印呢？ 123456789101112131415/** * 打印具体的异常堆栈信息 * * @param e 抛出的异常 * @return 堆栈信息 */private String getStackTrace(Throwable e)&amp;#123;	StringBuilder sb = new StringBuilder();	StackTraceElement[] st">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://xujiangjun.github.io/images/mysql_integer.png">
-<meta property="og:updated_time" content="2019-03-28T07:57:18.395Z">
+<meta property="og:updated_time" content="2019-04-25T09:10:18.742Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库基础">
-<meta name="twitter:description" content="一个database可以有很多schema。此外一般线上会对应两个数据库，主库（master，主要进行写操作），从库（slave，主要进行读操作）。 数据库基础数据类型数字（整数|小数） 整数通常只使用tinyint和int，其后面括号带的数字无任何意义，不影响所占用的字节数和存储范围。 枚举字段：使用tinyint，且可加上unsigned。 decimal(n,m)简单介绍就是n&amp;gt;=m，">
-<meta name="twitter:image" content="https://xujiangjun.github.io/images/mysql_integer.png">
+<meta name="twitter:title" content="异常堆栈信息打印">
+<meta name="twitter:description" content="如何进行异常堆栈信息打印呢？ 123456789101112131415/** * 打印具体的异常堆栈信息 * * @param e 抛出的异常 * @return 堆栈信息 */private String getStackTrace(Throwable e)&amp;#123;	StringBuilder sb = new StringBuilder();	StackTraceElement[] st">
   
     <link rel="alternate" href="/atom.xml" title="xujiangjun&#39;s Blog" type="application/atom+xml">
   
@@ -67,10 +65,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-database/database-basics" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-java/异常堆栈信息打印" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/03/27/database/database-basics/" class="article-date">
-  <time datetime="2019-03-26T16:00:00.000Z" itemprop="datePublished">2019-03-27</time>
+    <a href="/2019/04/25/java/异常堆栈信息打印/" class="article-date">
+  <time datetime="2019-04-24T16:00:00.000Z" itemprop="datePublished">2019-04-25</time>
 </a>
     
   </div>
@@ -81,7 +79,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      数据库基础
+      异常堆栈信息打印
     </h1>
   
 
@@ -89,32 +87,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>一个database可以有很多schema。此外一般线上会对应两个数据库，主库（master，主要进行写操作），从库（slave，主要进行读操作）。</p>
-<h2 id="数据库基础数据类型"><a href="#数据库基础数据类型" class="headerlink" title="数据库基础数据类型"></a>数据库基础数据类型</h2><h4 id="数字（整数-小数）"><a href="#数字（整数-小数）" class="headerlink" title="数字（整数|小数）"></a>数字（整数|小数）</h4><ol>
-<li>整数通常只使用tinyint和int，其后面括号带的数字无任何意义，不影响所占用的字节数和存储范围。</li>
-<li>枚举字段：使用tinyint，且可加上unsigned。</li>
-<li>decimal(n,m)简单介绍就是n&gt;=m，n表示总位数（包含m，不包括小数点），m表示小数点后的位数（即精度）。n取值范围是（1~65）、m取值范围是（0~30），金额字段通常使用decimal(10,2)，根据需求定义n和m的值。</li>
-</ol>
-<p><img src="/images/mysql_integer.png" alt="整数"></p>
-<h4 id="字符（定长-变长）"><a href="#字符（定长-变长）" class="headerlink" title="字符（定长|变长）"></a>字符（定长|变长）</h4><ol>
-<li>定长字符char(n)：n取值范围是（0~255），n的单位为char，当n为0时，只能存放null和空字符串（但是没意义）。</li>
-<li>变长字符varchar(n)：最大存储空间为65535byte（64k），n的单位为char，故n的取值范围为（0~65535/m），m的取值与对应的字符集有关，不过n不要轻易超过255。</li>
-<li>长度单位是char，存储单位是byte。</li>
-<li>同等长度的字符长度，varchar会额外多占用一个字节。如：”ab”字符串varchar存储的话需要占用3bytes。</li>
-</ol>
-<h4 id="日期时间（日期-日期-时间）"><a href="#日期时间（日期-日期-时间）" class="headerlink" title="日期时间（日期|日期+时间）"></a>日期时间（日期|日期+时间）</h4><ol>
-<li>日期时间推进使用datetime，不推荐使用date，在淘汽内部使用的数据表迁移工具对date支持不好。</li>
-<li>如果日期时间只关心到月份，则推荐使用字符进行存储，如：char(6)存储201701。</li>
-<li>记录修改时间什么时候赋值好？插入时即可进行赋值，以免为空。</li>
-</ol>
+        <p>如何进行异常堆栈信息打印呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 打印具体的异常堆栈信息</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e 抛出的异常</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 堆栈信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">getStackTrace</span><span class="params">(Throwable e)</span></span>&#123;</span><br><span class="line">	StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">	StackTraceElement[] stackTraceElements = e.getStackTrace();</span><br><span class="line">	sb.append(e.toString() + <span class="string">"\n"</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; stackTraceElements.length; i++) &#123;</span><br><span class="line">		sb.append(stackTraceElements[i] + <span class="string">"\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果是通过反射进行调用的话，需要进一步获取异常信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(e <span class="keyword">instanceof</span> InvocationTargetException)&#123;</span><br><span class="line">    InvocationTargetException targetException = (InvocationTargetException) e;</span><br><span class="line">    Throwable ex = targetException.getTargetException();</span><br><span class="line">    String exceptionMessage = getStackTrace(ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://xujiangjun.github.io/2019/03/27/database/database-basics/" data-id="cjuxr16f70004yj9sxeou4do2" class="article-share-link">Share</a>
+      <a data-url="https://xujiangjun.github.io/2019/04/25/java/异常堆栈信息打印/" data-id="cjuxr16fb0008yj9sv1ok7djg" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
     </footer>
   </div>
@@ -122,19 +106,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/04/25/jvm/JVM排查实战/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/04/25/database/MongoDB自定义实现通用更新/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          JVM排查实战
+          MongoDB自定义实现通用更新
         
       </div>
     </a>
   
   
-    <a href="/2019/03/27/java/interviews/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/04/25/jvm/JVM排查工具/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Java面试题集</div>
+      <div class="article-nav-title">JVM排查工具</div>
     </a>
   
 </nav>
